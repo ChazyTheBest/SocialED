@@ -1,0 +1,25 @@
+<section>
+    <h1>Acceso</h1>
+    <form action="/processLogin" method="post" onsubmit="return login();">
+        <div class="group">
+            <input name="email" size="80" type="email" required>
+            <label>Email</label>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+        </div>
+        <div class="group">
+            <input name="passwd" size="80" type="password" required>
+            <label>Password</label>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+        </div>
+        <div class="switch">
+            <div class="remember">
+                <input type="checkbox" id="remember" name="remember" value="1" hidden>
+                <label for="remember"></label>
+            </div>
+            <label for="remember">No me olvides...</label>
+        </div>
+        <input id="login_submit" name="login_submit" type="submit" value="Acceso">
+    </form>
+</section>

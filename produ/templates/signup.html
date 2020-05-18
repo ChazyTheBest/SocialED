@@ -1,0 +1,30 @@
+<section>
+    <h1>Registro</h1>
+    <form action="/processSignup" method="post" onsubmit="return signup();">
+        <div class="group">
+            <input name="nickname" size="80" type="text" required>
+            <label>Nickname</label>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+        </div>
+        <div class="group">
+            <input name="email" size="80" type="text" required>
+            <label>Email</label>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+        </div>
+        <div class="group">
+            <input name="passwd" size="80" type="password" required>
+            <label>Password</label>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+        </div>
+        <div class="group">
+            <input name="confirm" size="80" type="password" required>
+            <label>Repite Password</label>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+        </div>
+        <input id="signup_submit" name="signup_submit" type="submit" value="Sign Up">
+    </form>
+</section>

@@ -1,0 +1,21 @@
+<section>
+    <h1>Hola internauta, Qué tal estás?</h1>
+    <form action="/processMessage" method="post" onsubmit="return messages();">
+        <div class="group">
+            <input name="message" type="text" maxlength="128" size="80" required>
+            <label>Escribe algo...</label>
+            <span class="highlight"></span>
+            <span class="bar"></span>
+            <input id="post_submit" name="post_submit" type="submit" hidden>
+            <label for="post_submit" class="send"><img src="static/img/send.png" alt="send arrow"></label>
+        </div>
+    </form>
+    <article>
+    {% if data is not none %}
+        <h3>Escritos anteriores</h3>
+        {% for e in data %}
+        <p>{{ e }}</p>
+        {% endfor %}
+    {% endif %}
+    </article>
+</section>

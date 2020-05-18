@@ -1,116 +1,95 @@
-# -*- coding: iso-8859-15 -*-
+# -*- coding: utf-8 -*-
 
-
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
 
+def params(uri):
+    script = '\n<script src="static/js/jquery-3.5.1.min.js"></script>\n'
+    return {
+        '/': {
+            'title': '',
+            'data': None,
+            'script': ''
+        },
+        '/home': {
+            'title': '',
+            'data': None,
+            'script': ''
+        },
+        '/messages': {
+            'title': 'Mensajes - ',
+            'data': [x for x in open("./data/messages.dat", "r").read().split('\n') if x.strip()],
+            'script': script + '<script src="static/js/messages.js"></script>'
+        },
+        '/signup': {
+            'title': 'Registro - ',
+            'data': None,
+            'script': script + '<script src="static/js/signup.js"></script>'
+        },
+        '/login': {
+            'title': 'Acceso - ',
+            'data': None,
+            'script': script + '<script src="static/js/login.js"></script>'
+        }
+    }[uri]
+
+
 @app.route('/', methods=['GET'])
-def index():
-    return app.send_static_file('index.html')
-
-
 @app.route('/home', methods=['GET'])
-def home():
-    return app.send_static_file('home.html')
-
-
-@app.route('/login', methods=['GET'])
-def login():
-    return app.send_static_file('login.html')
-
-
+@app.route('/messages', methods=['GET'])
 @app.route('/signup', methods=['GET'])
-def signup():
-    return app.send_static_file('signup.html')
+@app.route('/login', methods=['GET'])
+def serve():
+    uri = str(request.url_rule)
+
+    if uri == '/':
+        uri = '/home'
+
+    p = params(uri)
+
+    return render_template('main.html', title=p['title'], file=uri[1:], data=p['data'], scripts=p['script'])
 
 
-@app.route('/processLogin', methods=['GET', 'POST'])
+def processForm(title, fields):
+    missing = []
+    data = [f"<h1>Data from Form: {title}</h1>"]
+    for field in fields:
+        value = request.form.get(field, None)
+        if value is None:
+            missing.append(field)
+        data.append(f"<p>{field}: {value}</p>")
+    if missing:
+        data = ['<h1>Warning</h1>', '<p>Some fields are missing</p>']
+
+    return render_template('modal.html', content=data)
+
+
+@app.route('/processLogin', methods=['POST'])
 def processLogin():
-    missing = []
-    fields = ['email', 'passwd', 'login_submit']
-    for field in fields:
-        value = request.form.get(field, None)
-        if value is None:
-            missing.append(field)
-    if missing:
-        return "Warning: Some fields are missing"
-
-    return '<!DOCTYPE html> ' \
-           '<html lang="es">' \
-           '<head>' \
-           '<title> Acceso - SocialED </title>' \
-           '</head>' \
-           '<body> <div id ="container">' \
-           '<a href="/"> SocialED </a> | <a href="home"> Inicio </a> | <a href="login"> Acceso </a> | <a href="signup"> Registro </a>' \
-           '<h1>Data from Form: Login</h1>' \
-           '<form><label>email: ' + request.form['email'] + \
-           '</label><br><label>passwd: ' + request.form['passwd'] + \
-           '</label></form></div></body>' \
-           '</html>'
+    return processForm('Login', ['email', 'passwd'])
 
 
-@app.route('/processSignup', methods=['GET', 'POST'])
+@app.route('/processSignup', methods=['POST'])
 def processSignup():
+    return processForm('Sign Up', ['nickname', 'email', 'passwd'])
+
+
+@app.route('/processMessage', methods=['POST'])
+def processMessages():
     missing = []
-    fields = ['nickname', 'email', 'passwd', 'confirm', 'signup_submit']
-    for field in fields:
-        value = request.form.get(field, None)
-        if value is None:
-            missing.append(field)
+    field = 'msg'
+    value = request.form.get(field, None)
+    if value is None:
+        missing.append(field)
     if missing:
-        return "Warning: Some fields are missing"
+        return render_template('modal.html', content=['<h1>Warning</h1>', '<p>Some fields are missing</p>'])
+    with open('./data/messages.dat', 'a') as messages:
+        messages.write(f"{value}\n")
+        messages.close()
 
-    return '<!DOCTYPE html> ' \
-           '<html lang="es">' \
-           '<head>' \
-           '<title> Registro - SocialED </title>' \
-           '</head>' \
-           '<body> <div id ="container">' \
-           '<a href="/"> SocialED </a> | <a href="home"> Inicio </a> | <a href="login"> Acceso </a> | <a href="signup"> Registro </a>' \
-           '<h1>Data from Form: Sign Up</h1>' \
-           '<form><label>Nickame: ' + request.form['nickname'] + \
-           '</label><br><label>email: ' + request.form['email'] + \
-           '</label><br><label>passwd: ' + request.form['passwd'] + \
-           '</label><br><label>confirm: ' + request.form['confirm'] + \
-           '</label></form></div></body>' \
-           '</html>'
-
-
-@app.route('/processHome', methods=['GET', 'POST'])
-def processHome():
-    missing = []
-    fields = ['message', 'last', 'post_submit']
-    for field in fields:
-        value = request.form.get(field, None)
-        if value is None:
-            missing.append(field)
-    if missing:
-        return "Warning: Some fields are missing"
-
-    return '<!DOCTYPE html> ' \
-           '<html lang="es">' \
-           '<head>' \
-           '<title> Inicio - SocialED </title>' \
-           '</head>' \
-           '<body> <div id="container">' \
-           '<a href="/"> SocialED </a> | <a href="home"> Inicio </a> | <a href="login"> Acceso </a> | <a href="signup"> Registro </a>' \
-           '<h1>Hola internauta, qué tal estás?</h1>' \
-           '<form action="processHome" method="post" name="home"> ' \
-           '<label for="message">Escribe algo...</label><div class="inputs">' \
-           '<input id="message" maxlength="128" name="message" size="80" type="text" required="true" value=""/>' \
-           '<input id="last" type="hidden" name="last" required="true" value="' + request.form['last'] + '<br>' + \
-           request.form['message'] + '">' \
-                                     '</div>' \
-                                     '<div class="inputs">' \
-                                     '<input id="post_submit" name="post_submit" type="submit" value="Post!"/>' \
-                                     '<br><br>Escritos anteriores: <br>' + request.form['last'] + '<br>' + request.form[
-               'message'] + \
-           '</form>' \
-           '</div></div>' \
-           '</body>' \
-           '</html>'
+    return 'success'
 
 
 # app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
