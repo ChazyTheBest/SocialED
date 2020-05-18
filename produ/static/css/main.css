@@ -1,0 +1,320 @@
+/* main.css */
+/* Own stylesheet for SocialED */
+
+/* CSS reset */
+* {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+*, *::before, *::after {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section,
+h1, h2, h3, h4, h5, h6, img {
+    display: block;
+}
+
+img { max-width: 100% }
+
+ol, ul { list-style: none }
+
+a, input, button, select, textarea {
+    font: inherit;
+    line-height: inherit;
+    outline: none;
+    color: inherit;
+    text-decoration: none;
+    background: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    -webkit-box-shadow: none;
+       -moz-box-shadow: none;
+            box-shadow: none;
+}
+
+a:active, a:focus,
+button:active, button:focus,
+input:active, input:focus,
+select:active, select:focus,
+textarea:active, textarea:focus {
+    border: none;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner,
+select::-moz-focus-inner { border: none }
+
+select:-moz-focusring {
+    color: transparent !important;
+    text-shadow: 0 0 0 #262c38;
+}
+
+a:focus, label, label:focus { color: inherit }
+
+input:required { box-shadow: none }
+
+a, button, input[type="submit"], label {
+            transition: 0.5s all;
+         -o-transition: 0.5s all;
+        -ms-transition: 0.5s all;
+       -moz-transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+}
+
+body a {
+    align-self: center;
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-color: #2A2929;
+}
+header {
+    background-color: #4267b2;
+    border-bottom: 1px solid #29487d;
+    color: #fff;
+    padding: 8px 0;
+}
+
+menu {
+    width: 1012px;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+menu > a > h1 {
+    color: #4267b2;
+    background-color: white;
+    line-height: 1;
+    overflow: hidden;
+}
+
+menu > a > h1 > span {
+    top: 6px;
+    padding: 0 0 0 10px;
+}
+
+menu > ul {
+    display: flex;
+}
+
+menu > ul > a {
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 12px;
+    line-height: 28px;
+}
+
+menu > ul > a:hover,
+menu > ul > a:focus,
+menu > ul > a:active { background: rgba(0, 0, 0, .1) }
+
+menu > ul >  a::before {
+    content: '';
+    display: block;
+    height: 18px;
+    left: -1px;
+    position: absolute;
+    top: 6px;
+    width: 1px;
+    background: rgba(0, 0, 0, .1);
+}
+
+main {
+    background-color: #e9ebee;
+}
+
+main > section {
+    width: 1012px;
+    margin: 0 auto;
+    padding: 3em 0;
+}
+
+main > section > h1 { margin: 0 0 1.5em; text-align: center }
+
+article > p { margin: 15px 0 }
+
+/*
+    FORMS
+*/
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    width: 100%; height: 100%;
+    padding: 16px;
+}
+div.group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 36.8px;
+    margin: 18px 0
+}
+div.group.join { flex-direction: row; align-items: flex-start }
+div.group > input, div.group > select {
+    width: 100%; height: 36.8px;
+    font-size: 16px;
+    padding: 5px;
+    border-bottom: 1px solid #4267b2;
+    color: inherit
+}
+div.group > label {
+    width: 100%; height: 26.8px;
+    font-size: 16px;
+    font-weight: normal;
+    color: rgb(38, 44, 56);
+    pointer-events: none;
+            transition: 0.2s ease all;
+       -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+div.group > label, div.group > span.highlight {
+    position: absolute;
+    top: 0; bottom: 0; left: 5px;
+    margin: auto 0;
+}
+div.group > input:required + label::after, div.group > select:required ~ label::after {
+    content: ' *';
+    font-size: 13px;
+    vertical-align: top;
+}
+div.group > input:focus + label, div.group > input:not(#post_submit):valid + label, div.group > select:valid ~ label {
+    top: -40px;
+    font-size: 14px;
+    color: #4267b2;
+}
+div.group > span.bar { width: 100% }
+div.group.join > span.bar { position: absolute; bottom: 0 }
+div.group > span.bar::before, div.group > span.bar::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 0;
+    bottom: -1px;
+    background: #29487d;
+            transition: 0.2s ease all;
+       -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+}
+div.group > span.bar::before { left: 50% }
+div.group > span.bar::after { right: 50% }
+div.group > input:not(.join):focus ~ span.bar::before, div.group > input:not(.join):focus ~ span.bar::after,
+div.group > select:not(.join):focus ~ span.bar::before, div.group > select:not(.join):focus ~ span.bar::after,
+div.group.join > input.join:focus ~ span.bar.join::before, div.group.join > input.join:focus ~ span.bar.join::after,
+div.group.join > select.join:focus ~ span.bar.join::before, div.group.join > select.join:focus ~ span.bar.join::after { width: 50% }
+div.group > span.highlight {
+    width: 100px; height: 60%;
+    left: 5px;
+    pointer-events: none;
+    opacity: 0.5;
+}
+div.group > input:not(.join):focus ~ span.highlight,
+div.group.join > input.join:focus ~ span.highlight.join,
+div.group > select:not(.join):focus ~ span.highlight,
+div.group.join > select.join:focus ~ span.highlight.join {
+    -webkit-animation: inputHighlighter 0.3s ease;
+       -moz-animation: inputHighlighter 0.3s ease;
+            animation: inputHighlighter 0.3s ease;
+}
+@-webkit-keyframes inputHighlighter {
+    from    { background: #5264AE; }
+    to      { width: 0; background: transparent }
+}
+@-moz-keyframes inputHighlighter {
+    from    { background: #5264AE; }
+    to      { width: 0; background: transparent }
+}
+@keyframes inputHighlighter {
+    from    { background: #5264AE; }
+    to      { width: 0; background: transparent }
+}
+
+div.group > label.send {
+    width: auto;
+    height: auto;
+    left: auto;
+    right: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.switch, .info-submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+}
+.remember {
+    background-color: rgb(158, 158, 158);
+    width: 34px;
+    height: 14px;
+    margin: 0 8px 0 0;
+    border-radius: 8px
+}
+.remember label {
+    position: absolute;
+    top: -3px; left: -2px;
+    background-color: rgb(250, 250, 250);
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    cursor: grab;
+    transition: all 0.1s linear;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+}
+.remember input[type=checkbox]:checked + label { left: 16px; background-color: #29487d }
+
+/*
+    MODAL
+*/
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
