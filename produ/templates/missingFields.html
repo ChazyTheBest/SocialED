@@ -1,0 +1,9 @@
+<h1>Hay errores encontrados en los siguientes campos:</h1>
+<ul>
+{% for input in inputs %}
+    <li>{{ input }}</li>
+{% endfor %}
+</ul>
+<form action="{{ next }}" method="get">
+    <input id="next" name="next" type="submit" value="Continue"/>
+</form>

@@ -61,14 +61,14 @@ def processForm(title, fields):
             missing.append(field)
         data.append(f"<p>{field}: {value}</p>")
     if missing:
-        data = ['<h1>Warning</h1>', '<p>Some fields are missing</p>']
+        data = [render_template('missingFields.html', inputs=missing, next='/login')]
 
     return render_template('modal.html', content=data)
 
 
 @app.route('/processLogin', methods=['POST'])
 def processLogin():
-    return processForm('Login', ['email', 'passwd'])
+    return processForm('Login', ['email', 'passwd', 'test'])
 
 
 @app.route('/processSignup', methods=['POST'])
